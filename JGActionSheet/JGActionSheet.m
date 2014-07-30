@@ -938,6 +938,8 @@ static BOOL disableCustomEasing = NO;
         
         _targetView = nil;
         
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        
         if ([self.delegate respondsToSelector:@selector(actionSheetDidDismiss:)]) {
             [self.delegate actionSheetDidDismiss:self];
         }
