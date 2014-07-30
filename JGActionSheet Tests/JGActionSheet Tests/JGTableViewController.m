@@ -20,6 +20,10 @@
 
 @implementation JGTableViewController
 
+#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
+#define kCFCoreFoundationVersionNumber_iOS_7_0 838.00
+#endif
+
 #define iOS7 (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
 #define iPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
@@ -96,6 +100,11 @@
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    if (!iOS7) {
+        //Use this on iOS < 7 to prevent the UINavigationBar from overlapping your action sheet!
+        [self.navigationController.view.superview bringSubviewToFront:self.navigationController.view];
+    }
+    
     if (_currentAnchoredActionSheet) {
         UIView *view = _anchorView;
         
@@ -180,9 +189,7 @@
     
     sheet.delegate = self;
     
-    if (iOS7) {
-        sheet.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
-    }
+    sheet.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
     
     if (anchor && iPad) {
         _anchorView = anchor;
@@ -193,7 +200,7 @@
         
         p = [self.navigationController.view convertPoint:p fromView:anchor];
         
-        [sheet showFromPoint:p inView:self.navigationController.view arrowDirection:JGActionSheetArrowDirectionRight animated:YES];
+        [sheet showFromPoint:p inView:[[UIApplication sharedApplication] keyWindow] arrowDirection:JGActionSheetArrowDirectionRight animated:YES];
     }
     else {
         [sheet showInView:self.navigationController.view animated:YES];
@@ -223,9 +230,7 @@
     
     sheet.delegate = self;
     
-    if (iOS7) {
-        sheet.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
-    }
+    sheet.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
     
     if (anchor && iPad) {
         _anchorView = anchor;
@@ -271,9 +276,7 @@
     
     sheet.delegate = self;
     
-    if (iOS7) {
-        sheet.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
-    }
+    sheet.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
     
     if (anchor && iPad) {
         _anchorView = anchor;

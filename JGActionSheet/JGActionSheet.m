@@ -438,7 +438,7 @@ static BOOL disableCustomEasing = NO;
     if (self.contentView) {
         height += spacing;
         
-        self.contentView.frame = (CGRect){{(width-CGRectGetWidth(self.contentView.frame))/2.0f, height}, self.contentView.frame.size};
+        self.contentView.frame = (CGRect){{spacing, height}, {width-spacing*2.0f, self.contentView.frame.size.height}};
         
         height += CGRectGetHeight(self.contentView.frame);
     }

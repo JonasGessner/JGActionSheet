@@ -61,7 +61,7 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
 
 /**
  If the section was initialized with a custom contentView it is available from this property.
- @Note The content view should have a maximum width of 300 points, ideally 290 points.
+ @Note The content view will be resized to match the width of the action sheet. This is minimally 290 points. The height of the content view will not be changed.
  */
 @property (nonatomic, strong, readonly) UIView *contentView;
 
