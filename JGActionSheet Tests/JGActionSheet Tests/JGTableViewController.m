@@ -213,7 +213,7 @@
 - (void)multipleSections:(UIView *)anchor {
     JGActionSheetSection *s1 = [JGActionSheetSection sectionWithTitle:@"A Title" message:@"A short message" buttonTitles:@[@"Button 1", @"Button 2", @"Button 3"] buttonStyle:JGActionSheetButtonStyleDefault];
     
-    JGActionSheetSection *s2 = [JGActionSheetSection sectionWithTitle:@"Another Title" message:@"A long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long message!" buttonTitles:@[@"Red Button", @"Green Button", @"Blue Button"] buttonStyle:JGActionSheetButtonStyleDefault];
+    JGActionSheetSection *s2 = [JGActionSheetSection sectionWithTitle:@"Another Title" message:@"A long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long, very long message!" buttonTitles:@[@"Red Button", @"Green Button", @"Blue Button"] buttonStyle:JGActionSheetButtonStyleDefault];
     
     [s2 setButtonStyle:JGActionSheetButtonStyleRed forButtonAtIndex:0];
     [s2 setButtonStyle:JGActionSheetButtonStyleGreen forButtonAtIndex:1];
@@ -256,10 +256,10 @@
 - (void)multipleAndContentView:(UIView *)anchor {
     JGActionSheetSection *s1 = [JGActionSheetSection sectionWithTitle:@"A Title" message:@"A short message" buttonTitles:@[@"Button 1", @"Button 2", @"Button 3"] buttonStyle:JGActionSheetButtonStyleDefault];
     
-    JGActionSheetSection *s2 = [JGActionSheetSection sectionWithTitle:@"Another Title" message:@"A long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long message!" buttonTitles:@[@"Red Button", @"Green Button", @"Blue Button"] buttonStyle:JGActionSheetButtonStyleDefault];
+    JGActionSheetSection *s2 = [JGActionSheetSection sectionWithTitle:@"Another Title" message:@"A message!" buttonTitles:@[@"Red Button", @"Green Button", @"Blue Button"] buttonStyle:JGActionSheetButtonStyleDefault];
     
-    UIView *c = [[UIView alloc] initWithFrame:(CGRect){CGPointZero, {290.0f, 100.0f}}];
-    c.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    UISlider *c = [[UISlider alloc] init];
+    c.frame = (CGRect){CGPointZero, {290.0f, c.frame.size.height}};
     
     JGActionSheetSection *s3 = [JGActionSheetSection sectionWithTitle:@"Content View Section" message:nil contentView:c];
     
