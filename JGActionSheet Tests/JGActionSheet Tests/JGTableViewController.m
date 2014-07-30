@@ -48,8 +48,6 @@
     [super viewDidLoad];
     
     self.title = @"JGActionSheet";
-    JGActionSheet *s = [[JGActionSheet alloc] init];
-    [s dismissAnimated:YES];
     
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
     
