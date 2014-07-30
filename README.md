@@ -1,4 +1,72 @@
 JGActionSheet
 =============
 
-A feature rich action sheet for iOS.
+A feature rich and modern action sheet for iOS.
+<p align="center">
+<img src="JGActionSheet%20Tests/Screenshots/1.png" width="36.2%"/>&nbsp;
+<img src="JGActionSheet%20Tests/Screenshots/2.png" width="48%"/></p>
+
+#####Current Version: 1.0
+
+Intoduction
+===========
+JGActionSheet has all features of UIActionSheet but it goes even further than that:<br>
+<b>• Multiple sections.<br>
+• Full customization for buttons and labels.<br>
+• Sections can contain custom views.<br>
+• Blocks.<br>
+• Unlimited content capacity, thanks to UIScrollView.<br></b>
+
+####iPad support:
+This is crucial, as many UIActionSheet alternatives don't offer iPad support.<br>
+JGActionSheet takes the ideas of UIActionSheet but implements them much better. You can precicely show the action sheet from a specific point in a view and set the arrow direction like in a UIPopoverController!<br><br>
+The action sheet can also just be shown in the center of a view on iPads, like UIActionSheet.
+
+Requirements
+=================
+
+• iOS 5 or higher<br>
+• ARC
+
+Examples
+=================
+#####Simple example:
+```objc
+JGActionSheetSection *section1 = [JGActionSheetSection sectionWithTitle:@"Title" message:@"Message" buttonTitles:@[@"Yes", @"No"] buttonStyle:JGActionSheetButtonStyleDefault];
+JGActionSheetSection *cancelSection = [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel];
+
+NSArray *sections = @[section1, cancelSection];
+
+JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
+
+[sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+    [sheet dismissAnimated:YES];
+}];
+    
+[sheet showInView:self.view animated:YES];
+```
+
+This displays an action sheet with a section with the title "Title", the message "Message", two buttons saying "Yes" and "no", and a second section containing just a cancel button. The action sheet will be dismissed with every tap of a button (The `buttonPressedBlock` block dismisses the action sheet for every pressed button in this case!).
+<br>
+
+See the <a href="JGActionSheet%20Tests">JGActionSheet Tests</a> project for more example implementations.
+
+Documentation
+================
+The header file contains detailed documentation for each method call. See <a href="JGActionSheet/JGActionSheet.h">JGActionSheet.h</a>.
+
+Installation
+================
+<b>Add source files:</b><br>
+JGActionSheet consits of only the `JGActionSheet.h` and `JGActionSheet.m` files. To use JGActionSheet in your project, simply drag these two files located in the <a href="JGActionSheet">JGActionSheet folder</a> into your project.
+
+After you have included JGActionSheet in your project simply do `#import "JGProgressHUD.h"` and you are ready to go!
+
+License
+==========
+MIT License.<br>
+©2014 Jonas Gessner.
+
+Credits
+==========
+Created by Jonas Gessner © 2014.<br>
