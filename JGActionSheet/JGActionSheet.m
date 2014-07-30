@@ -13,6 +13,8 @@
 #error "JGActionSheet requires ARC!"
 #endif
 
+#pragma mark - Defines
+
 #ifndef kCFCoreFoundationVersionNumber_iOS_7_0
 #define kCFCoreFoundationVersionNumber_iOS_7_0 838.00
 #endif
@@ -21,18 +23,31 @@
 #define __IPHONE_8_0 80000
 #endif
 
-#define kHostsCornerRadius 3.0f
-
+#ifndef kBaseSDKiOS8
 #define kBaseSDKiOS8 (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0)
+#endif
 
+#ifndef iOS8
 #define iOS8 ([UIVisualEffectView class] != Nil)
+#endif
+
+#ifndef iOS7
 #define iOS7 (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
+#endif
 
+#ifndef rgba
 #define rgba(r, g, b, a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#endif
 
+#ifndef rgb
 #define rgb(r, g, b) rgba(r, g, b, 1.0f)
+#endif
 
+#ifndef iPad
 #define iPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#endif
+
+#define kHostsCornerRadius 3.0f
 
 #define kSpacing 5.0f
 
@@ -45,7 +60,9 @@
 #define kFixedWidth 320.0f
 #define kFixedWidthContinuous 300.0f
 
-UIBezierPath *trianglePath(CGRect rect, JGActionSheetArrowDirection arrowDirection, BOOL closePath) {
+#pragma mark - Helpers
+
+NS_INLINE UIBezierPath *trianglePath(CGRect rect, JGActionSheetArrowDirection arrowDirection, BOOL closePath) {
     UIBezierPath *path = [UIBezierPath bezierPath];
     
     if (arrowDirection == JGActionSheetArrowDirectionBottom) {
@@ -155,6 +172,7 @@ static BOOL disableCustomEasing = NO;
 
 @end
 
+#pragma mark - JGActionSheetSection
 
 @interface JGActionSheetSection ()
 
@@ -165,6 +183,8 @@ static BOOL disableCustomEasing = NO;
 @end
 
 @implementation JGActionSheetSection
+
+#pragma mark Initializers
 
 + (instancetype)sectionWithTitle:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
     return [[self alloc] initWithTitle:title message:message buttonTitles:buttonTitles buttonStyle:buttonStyle];
@@ -272,6 +292,8 @@ static BOOL disableCustomEasing = NO;
     
     return self;
 }
+
+#pragma mark UI
 
 - (void)setUpForContinuous:(BOOL)continuous {
     if (continuous) {
@@ -452,6 +474,8 @@ static BOOL disableCustomEasing = NO;
 
 @end
 
+#pragma mark - JGActionSheet
+
 @implementation JGActionSheet {
     __weak UIView *_targetView;
     UIScrollView *_scrollView;
@@ -467,7 +491,7 @@ static BOOL disableCustomEasing = NO;
 
 @dynamic visible;
 
-#pragma mark - Initializers
+#pragma mark Initializers
 
 + (instancetype)actionSheetWithSections:(NSArray *)sections {
     return [[self alloc] initWithSections:sections];
@@ -562,7 +586,7 @@ static BOOL disableCustomEasing = NO;
     }
 }
 
-#pragma mark - Layout
+#pragma mark Layout
 
 - (void)layoutSheetForFrame:(CGRect)frame fitToRect:(BOOL)fitToRect initialSetUp:(BOOL)initial continuous:(BOOL)continuous {
     if (continuous) {
@@ -658,7 +682,7 @@ static BOOL disableCustomEasing = NO;
     }
 }
 
-#pragma mark - Showing
+#pragma mark Showing
 
 - (void)showInView:(UIView *)view animated:(BOOL)animated {
     NSAssert(!self.visible, @"Action Sheet is already visisble!");
@@ -721,7 +745,7 @@ static BOOL disableCustomEasing = NO;
     [self layoutSheetForFrame:frame fitToRect:!iPad initialSetUp:initial continuous:NO];
 }
 
-#pragma mark - Showing from point
+#pragma mark Showing From Point
 
 - (void)showFromPoint:(CGPoint)point inView:(UIView *)view arrowDirection:(JGActionSheetArrowDirection)arrowDirection animated:(BOOL)animated {
     NSAssert(!self.visible, @"Action Sheet is already visisble!");
@@ -897,7 +921,7 @@ static BOOL disableCustomEasing = NO;
     _scrollViewHost.frame = finalFrame;
 }
 
-#pragma mark - Dismissal
+#pragma mark Dismissal
 
 - (void)dismissAnimated:(BOOL)animated {
     NSAssert(self.visible, @"Action Sheet requires to be visible in order to dismiss!");
@@ -946,7 +970,7 @@ static BOOL disableCustomEasing = NO;
     }
 }
 
-#pragma mark - Visibility
+#pragma mark Visibility
 
 - (BOOL)isVisible {
     return (_targetView != nil);
