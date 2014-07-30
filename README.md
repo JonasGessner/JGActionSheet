@@ -8,7 +8,7 @@ A feature rich and modern action sheet for iOS.
 
 #####Current Version: 1.0
 
-Intoduction
+Introduction
 ===========
 JGActionSheet has all features of UIActionSheet but it goes even further than that:<br>
 <b>• Multiple sections.<br>
@@ -19,7 +19,7 @@ JGActionSheet has all features of UIActionSheet but it goes even further than th
 
 ####iPad support:
 This is crucial, as many UIActionSheet alternatives don't offer iPad support.<br>
-JGActionSheet takes the ideas of UIActionSheet but implements them much better. You can precicely show the action sheet from a specific point in a view and set the arrow direction like in a UIPopoverController!<br><br>
+JGActionSheet takes the ideas of UIActionSheet but implements them much better. You can precisely show the action sheet from a specific point in a view and set the arrow direction like in a UIPopoverController!<br><br>
 The action sheet can also just be shown in the center of a view on iPads, like UIActionSheet.
 
 Requirements
@@ -58,7 +58,7 @@ The header file contains detailed documentation for each method call. See <a hre
 Installation
 ================
 <b>Add source files:</b><br>
-JGActionSheet consits of only the `JGActionSheet.h` and `JGActionSheet.m` files. To use JGActionSheet in your project, simply drag these two files located in the <a href="JGActionSheet">JGActionSheet folder</a> into your project.
+JGActionSheet consist of only the `JGActionSheet.h` and `JGActionSheet.m` files. To use JGActionSheet in your project, simply drag these two files located in the <a href="JGActionSheet">JGActionSheet folder</a> into your project.
 
 After you have included JGActionSheet in your project simply do `#import "JGProgressHUD.h"` and you are ready to go!
 
