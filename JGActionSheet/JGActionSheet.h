@@ -157,6 +157,11 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
 @interface JGActionSheet : UIView
 
 /**
+ The view in which the action sheet is presented.
+ */
+@property (nonatomic, weak, readonly) UIView *targetView;
+
+/**
  The sections of the action sheet.
  */
 @property (nonatomic, strong, readonly) NSArray *sections;

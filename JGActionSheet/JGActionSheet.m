@@ -477,7 +477,6 @@ static BOOL disableCustomEasing = NO;
 #pragma mark - JGActionSheet
 
 @implementation JGActionSheet {
-    __weak UIView *_targetView;
     UIScrollView *_scrollView;
     JGActionSheetTriangle *_arrowView;
     JGActionSheetView *_scrollViewHost;
