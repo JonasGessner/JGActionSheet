@@ -523,8 +523,10 @@ static BOOL disableCustomEasing = NO;
         
         NSInteger index = 0;
         
+        __weak __typeof(self) weakSelf = self;
+        
         void (^pressedBlock)(NSIndexPath *) = ^(NSIndexPath *indexPath) {
-            [self buttonPressed:indexPath];
+            [weakSelf buttonPressed:indexPath];
         };
         
         for (JGActionSheetSection *section in self.sections) {
@@ -686,6 +688,8 @@ static BOOL disableCustomEasing = NO;
 - (void)showInView:(UIView *)view animated:(BOOL)animated {
     NSAssert(!self.visible, @"Action Sheet is already visisble!");
     
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    
     _targetView = view;
     
     [self layoutSheetInitial:YES];
@@ -694,30 +698,30 @@ static BOOL disableCustomEasing = NO;
         [self.delegate actionSheetWillPresent:self];
     }
     
-    if (animated) {
-        [self layoutForVisible:NO];
-    }
-    else {
-        [self layoutForVisible:YES];
+    void (^completion)(void) = ^{
+        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
         
         if ([self.delegate respondsToSelector:@selector(actionSheetDidPresent:)]) {
             [self.delegate actionSheetDidPresent:self];
         }
-    }
-    
-    [_targetView addSubview:self];
+    };
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
     
-    if (animated) {
+    [self layoutForVisible:!animated];
+    
+    [_targetView addSubview:self];
+    
+    if (!animated) {
+        completion();
+    }
+    else {
         CGFloat duration = MAX(0.2f, MIN(self.sections.count*0.15f, 0.5f));
         
         [UIView animateWithDuration:duration animations:^{
             [self layoutForVisible:YES];
         } completion:^(BOOL finished) {
-            if ([self.delegate respondsToSelector:@selector(actionSheetDidPresent:)]) {
-                [self.delegate actionSheetDidPresent:self];
-            }
+            completion();
         }];
     }
 }
@@ -753,6 +757,8 @@ static BOOL disableCustomEasing = NO;
         return [self showInView:view animated:animated];
     }
     
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    
     _targetView = view;
     
     [self moveToPoint:point arrowDirection:arrowDirection animated:NO];
@@ -761,30 +767,30 @@ static BOOL disableCustomEasing = NO;
         [self.delegate actionSheetWillPresent:self];
     }
     
-    if (animated) {
-        [self layoutForVisible:NO];
-    }
-    else {
-        [self layoutForVisible:YES];
+    void (^completion)(void) = ^{
+        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
         
         if ([self.delegate respondsToSelector:@selector(actionSheetDidPresent:)]) {
             [self.delegate actionSheetDidPresent:self];
         }
-    }
-    
-    [_targetView addSubview:self];
+    };
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
     
-    if (animated) {
+    [self layoutForVisible:!animated];
+    
+    [_targetView addSubview:self];
+    
+    if (!animated) {
+        completion();
+    }
+    else {
         CGFloat duration = 0.3f;
         
         [UIView animateWithDuration:duration animations:^{
             [self layoutForVisible:YES];
         } completion:^(BOOL finished) {
-            if ([self.delegate respondsToSelector:@selector(actionSheetDidPresent:)]) {
-                [self.delegate actionSheetDidPresent:self];
-            }
+            completion();
         }];
     }
 }
@@ -793,6 +799,8 @@ static BOOL disableCustomEasing = NO;
     if (!iPad) {
         return;
     }
+    
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     
     disableCustomEasing = YES;
     
@@ -850,11 +858,18 @@ static BOOL disableCustomEasing = NO;
         [self anchorSheetAtPoint:point withArrowDirection:arrowDirection availableFrame:finalFrame];
     };
     
+    void (^completion)(void) = ^{
+        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+    };
+    
     if (animated) {
-        [UIView animateWithDuration:0.3 animations:changes];
+        [UIView animateWithDuration:0.3 animations:changes completion:^(BOOL finished) {
+            completion();
+        }];
     }
     else {
         changes();
+        completion();
     }
     
     disableCustomEasing = NO;
@@ -925,19 +940,23 @@ static BOOL disableCustomEasing = NO;
 - (void)dismissAnimated:(BOOL)animated {
     NSAssert(self.visible, @"Action Sheet requires to be visible in order to dismiss!");
     
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    
     void (^completion)(void) = ^{
-        [self removeFromSuperview];
-        
         [_arrowView removeFromSuperview];
         _arrowView = nil;
+        
+        _targetView = nil;
+        
+        [self removeFromSuperview];
         
         _anchoredAtPoint = NO;
         _anchoredArrowDirection = 0;
         _anchorPoint = CGPointZero;
         
-        _targetView = nil;
-        
         [[NSNotificationCenter defaultCenter] removeObserver:self];
+        
+        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
         
         if ([self.delegate respondsToSelector:@selector(actionSheetDidDismiss:)]) {
             [self.delegate actionSheetDidDismiss:self];

@@ -22,6 +22,9 @@ This is crucial, as many UIActionSheet alternatives don't offer iPad support.<br
 JGActionSheet takes the ideas of UIActionSheet but implements them much better. You can precisely show the action sheet from a specific point in a view and set the arrow direction like in a UIPopoverController!<br><br>
 The action sheet can also just be shown in the center of a view on iPads, like UIActionSheet.
 
+####UIAlertController on iOS 8:
+On iOS 8 `UIAlertController` replaces `UIActionSheet` and `UIAlertView`. UIAlertController has even less features than UIActionSheet on iPads. Controlling whether the action sheet should show in the center of a view without an arrow or with an arrow is gone. And setting the location of the action sheet when using an arrow has become even more difficult and annoying. JGActionSheet gets rid of all these limitations and makes placing your action sheet so much easier!
+
 Requirements
 =================
 

@@ -14,6 +14,7 @@
     JGActionSheet *_currentAnchoredActionSheet;
     UIView *_anchorView;
     BOOL _anchorLeft;
+    JGActionSheet *_simple;
 }
 
 @end
@@ -185,36 +186,39 @@
 }
 
 - (void)showSimple:(UIView *)anchor {
-    JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:@[[JGActionSheetSection sectionWithTitle:@"Title" message:@"Message" buttonTitles:@[@"Yes", @"No"] buttonStyle:JGActionSheetButtonStyleDefault], [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel]]];
-    
-    sheet.delegate = self;
-    
-    sheet.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
+    //This is am example of an action sheet that is reused!
+    if (!_simple) {
+        _simple = [JGActionSheet actionSheetWithSections:@[[JGActionSheetSection sectionWithTitle:@"Title" message:@"Message" buttonTitles:@[@"Yes", @"No"] buttonStyle:JGActionSheetButtonStyleDefault], [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel]]];
+        
+        _simple.delegate = self;
+        
+        _simple.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
+        
+        if (iPad) {
+            [_simple setOutsidePressBlock:^(JGActionSheet *sheet) {
+                [sheet dismissAnimated:YES];
+            }];
+        }
+        
+        [_simple setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+            [sheet dismissAnimated:YES];
+        }];
+    }
     
     if (anchor && iPad) {
         _anchorView = anchor;
         _anchorLeft = YES;
-        _currentAnchoredActionSheet = sheet;
+        _currentAnchoredActionSheet = _simple;
         
         CGPoint p = (CGPoint){-5.0f, CGRectGetMidY(anchor.bounds)};
         
         p = [self.navigationController.view convertPoint:p fromView:anchor];
         
-        [sheet showFromPoint:p inView:[[UIApplication sharedApplication] keyWindow] arrowDirection:JGActionSheetArrowDirectionRight animated:YES];
+        [_simple showFromPoint:p inView:[[UIApplication sharedApplication] keyWindow] arrowDirection:JGActionSheetArrowDirectionRight animated:YES];
     }
     else {
-        [sheet showInView:self.navigationController.view animated:YES];
+        [_simple showInView:self.navigationController.view animated:YES];
     }
-    
-    if (iPad) {
-        [sheet setOutsidePressBlock:^(JGActionSheet *sheet) {
-            [sheet dismissAnimated:YES];
-        }];
-    }
-    
-    [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
-        [sheet dismissAnimated:YES];
-    }];
 }
 
 - (void)multipleSections:(UIView *)anchor {
