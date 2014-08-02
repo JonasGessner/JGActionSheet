@@ -60,6 +60,8 @@
 #define kFixedWidth 320.0f
 #define kFixedWidthContinuous 300.0f
 
+#define kAnimationDurationForSectionCount(count) MAX(0.22f, MIN(count*0.12f, 0.45f))
+
 #pragma mark - Helpers
 
 NS_INLINE UIBezierPath *trianglePath(CGRect rect, JGActionSheetArrowDirection arrowDirection, BOOL closePath) {
@@ -716,7 +718,7 @@ static BOOL disableCustomEasing = NO;
         completion();
     }
     else {
-        CGFloat duration = MAX(0.2f, MIN(self.sections.count*0.15f, 0.5f));
+        CGFloat duration = (iPad ? 0.3f : kAnimationDurationForSectionCount(self.sections.count));
         
         [UIView animateWithDuration:duration animations:^{
             [self layoutForVisible:YES];
@@ -970,11 +972,11 @@ static BOOL disableCustomEasing = NO;
     if (animated) {
         CGFloat duration = 0.0f;
         
-        if (_anchoredAtPoint) {
+        if (iPad) {
             duration = 0.3f;
         }
         else {
-            duration = MAX(0.2f, MIN(self.sections.count*0.15f, 0.5f));
+            duration = kAnimationDurationForSectionCount(self.sections.count);
         }
         
         [UIView animateWithDuration:duration animations:^{

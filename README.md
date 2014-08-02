@@ -6,7 +6,7 @@ A feature rich and modern action sheet for iOS.
 <img src="JGActionSheet%20Tests/Screenshots/1.png" width="36.2%"/>&nbsp;
 <img src="JGActionSheet%20Tests/Screenshots/2.png" width="48%"/></p>
 
-#####Current Version: 1.0
+#####Current Version: 1.0.1
 
 Introduction
 ===========
