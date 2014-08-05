@@ -60,6 +60,12 @@ The header file contains detailed documentation for each method call. See <a hre
 
 Installation
 ================
+<b>CocoaPods:</b><br>
+Add this to your `Podfile`:
+```
+pod 'JGActionSheet', '1.0.1'
+```
+
 <b>Add source files:</b><br>
 JGActionSheet consist of only the `JGActionSheet.h` and `JGActionSheet.m` files. To use JGActionSheet in your project, simply drag these two files located in the <a href="JGActionSheet">JGActionSheet folder</a> into your project.
 
