@@ -63,13 +63,13 @@ Installation
 <b>CocoaPods:</b><br>
 Add this to your `Podfile`:
 ```
-pod 'JGActionSheet', '1.0.1'
+pod 'JGActionSheet'
 ```
 
 <b>Add source files:</b><br>
 JGActionSheet consist of only the `JGActionSheet.h` and `JGActionSheet.m` files. To use JGActionSheet in your project, simply drag these two files located in the <a href="JGActionSheet">JGActionSheet folder</a> into your project.
 
-After you have included JGActionSheet in your project simply do `#import "JGProgressHUD.h"` and you are ready to go!
+After you have included JGActionSheet in your project simply do `#import "JGActionSheet.h"` and you are ready to go!
 
 License
 ==========
