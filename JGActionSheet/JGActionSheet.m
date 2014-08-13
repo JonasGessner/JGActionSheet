@@ -656,6 +656,8 @@ static BOOL disableCustomEasing = NO;
     _finalContentFrame = _scrollViewHost.frame;
     
     _scrollView.frame = _scrollViewHost.bounds;
+    
+    [_scrollView scrollRectToVisible:(CGRect){{0.0f, _scrollView.contentSize.height-1.0f}, {1.0f, 1.0f}} animated:NO];
 }
 
 - (void)layoutForVisible:(BOOL)visible {
