@@ -1,7 +1,7 @@
 JGActionSheet
 =============
 
-A feature rich and modern action sheet for iOS.
+A feature-rich and modern action sheet for iOS.
 <p align="center">
 <img src="JGActionSheet%20Tests/Screenshots/1.png" width="36.2%"/>&nbsp;
 <img src="JGActionSheet%20Tests/Screenshots/2.png" width="48%"/></p>
@@ -18,7 +18,7 @@ JGActionSheet has all features of UIActionSheet but it goes even further than th
 • Unlimited content capacity, thanks to UIScrollView.<br></b>
 
 ####iPad support:
-This is crucial, as many UIActionSheet alternatives don't offer iPad support.<br>
+While of course offering iPhone suppott, iPad support is crucial, as many UIActionSheet alternatives don't offer iPad support.<br>
 JGActionSheet takes the ideas of UIActionSheet but implements them much better. You can precisely show the action sheet from a specific point in a view and set the arrow direction like in a UIPopoverController!<br><br>
 The action sheet can also just be shown in the center of a view on iPads, like UIActionSheet.
 
@@ -49,7 +49,7 @@ JGActionSheet *sheet = [JGActionSheet actionSheetWithSections:sections];
 [sheet showInView:self.view animated:YES];
 ```
 
-This displays an action sheet with a section with the title "Title", the message "Message", two buttons saying "Yes" and "no", and a second section containing just a cancel button. The action sheet will be dismissed with every tap of a button (The `buttonPressedBlock` block dismisses the action sheet for every pressed button in this case!).
+This displays an action sheet with a section with the title "Title", the message "Message", two buttons saying "Yes" and "No", and a second section containing just a cancel button. The action sheet will be dismissed with every tap of a button (The `buttonPressedBlock` block dismisses the action sheet for every pressed button in this case!).
 <br>
 
 See the <a href="JGActionSheet%20Tests">JGActionSheet Tests</a> project for more example implementations.
