@@ -3,8 +3,8 @@ JGActionSheet
 
 A feature-rich and modern action sheet for iOS.
 <p align="center">
-<img src="JGActionSheet%20Tests/Screenshots/1.png" width="36.2%"/>&nbsp;
-<img src="JGActionSheet%20Tests/Screenshots/2.png" width="48%"/></p>
+<img src="JGActionSheet Tests/Screenshots/1.png" width="36.2%"/>&nbsp;
+<img src="JGActionSheet Tests/Screenshots/2.png" width="48%"/></p>
 
 #####Current Version: 1.0.2
 
@@ -56,7 +56,8 @@ See the <a href="JGActionSheet%20Tests">JGActionSheet Tests</a> project for more
 
 Documentation
 ================
-The header file contains detailed documentation for each method call. See <a href="JGActionSheet/JGActionSheet.h">JGActionSheet.h</a>.
+Detailed documentation can be found on <a href="http://cocoadocs.org/docsets/JGActionSheet">CocoaDocs</a>.<br>
+The header file also contains detailed documentation for each method call. See <a href="JGActionSheet/JGActionSheet.h">JGActionSheet.h</a>.
 
 Installation
 ================
