@@ -54,7 +54,9 @@
     
     self.title = @"JGActionSheet";
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    if ([self.tableView respondsToSelector:@selector(registerClass:forCellReuseIdentifier:)]) {
+        [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
+    }
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -136,6 +138,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    
+    if (!cell){
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+    }
     
     if (!cell.accessoryView) {
         UIButton *accessory = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];

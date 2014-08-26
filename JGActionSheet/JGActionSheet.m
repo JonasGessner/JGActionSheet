@@ -478,7 +478,7 @@ static BOOL disableCustomEasing = NO;
 
 #pragma mark - JGActionSheet
 
-@implementation JGActionSheet {
+@interface JGActionSheet () <UIGestureRecognizerDelegate> {
     UIScrollView *_scrollView;
     JGActionSheetTriangle *_arrowView;
     JGActionSheetView *_scrollViewHost;
@@ -489,6 +489,10 @@ static BOOL disableCustomEasing = NO;
     CGPoint _anchorPoint;
     JGActionSheetArrowDirection _anchoredArrowDirection;
 }
+
+@end
+
+@implementation JGActionSheet
 
 @dynamic visible;
 
@@ -505,6 +509,7 @@ static BOOL disableCustomEasing = NO;
     
     if (self) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)];
+        tap.delegate = self;
         
         [self addGestureRecognizer:tap];
         
@@ -556,6 +561,14 @@ static BOOL disableCustomEasing = NO;
 }
 
 #pragma mark Callbacks
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if ([self hitTest:[gestureRecognizer locationInView:self] withEvent:nil] == self && self.outsidePressBlock) {
+        return YES;
+    }
+    
+    return NO;
+}
 
 - (void)tapped:(UITapGestureRecognizer *)gesture {
     if ([self hitTest:[gesture locationInView:self] withEvent:nil] == self && self.outsidePressBlock) {
