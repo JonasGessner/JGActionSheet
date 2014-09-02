@@ -6,7 +6,7 @@ A feature-rich and modern action sheet for iOS.
 <img src="JGActionSheet Tests/Screenshots/1.png" width="36.2%"/>&nbsp;
 <img src="JGActionSheet Tests/Screenshots/2.png" width="48%"/></p>
 
-#####Current Version: 1.0.3
+#####Current Version: 1.0.4
 
 Introduction
 ===========
@@ -18,7 +18,7 @@ JGActionSheet has all features of UIActionSheet but it goes even further than th
 • Unlimited content capacity, thanks to UIScrollView.<br></b>
 
 ####iPad support:
-While of course offering iPhone suppott, iPad support is crucial, as many UIActionSheet alternatives don't offer iPad support.<br>
+While of course offering iPhone support, iPad support is crucial, as many UIActionSheet alternatives don't offer iPad support.<br>
 JGActionSheet takes the ideas of UIActionSheet but implements them much better. You can precisely show the action sheet from a specific point in a view and set the arrow direction like in a UIPopoverController!<br><br>
 The action sheet can also just be shown in the center of a view on iPads, like UIActionSheet.
 
@@ -28,8 +28,8 @@ On iOS 8 `UIAlertController` replaces `UIActionSheet` and `UIAlertView`. UIAlert
 Requirements
 =================
 
-• iOS 5 or higher<br>
-• ARC
+• Deployment Target of iOS 5 or higher, Base SDK of iOS 7 or higher.<br>
+• ARC.
 
 Examples
 =================

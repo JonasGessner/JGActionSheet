@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
 @property (nonatomic, strong, readonly) UILabel *messageLabel;
 
 /**
- If the section was initialized with button titles, the corresponding buttons are in this array.
+ If the section was initialized with button titles, the corresponding buttons are in this array. You may access these to modify the text color, the font etc.
  */
 @property (nonatomic, strong, readonly) NSArray *buttons;
 

@@ -337,7 +337,7 @@ static BOOL disableCustomEasing = NO;
     
     UIGraphicsEndImageContext();
     
-    return [img stretchableImageWithLeftCapWidth:0 topCapHeight:0];
+    return [img resizableImageWithCapInsets:UIEdgeInsetsZero];
 }
 
 - (void)setButtonStyle:(JGActionSheetButtonStyle)buttonStyle forButton:(UIButton *)button {
@@ -485,6 +485,8 @@ static BOOL disableCustomEasing = NO;
     
     CGRect _finalContentFrame;
     
+    UIColor *_realBGColor;
+    
     BOOL _anchoredAtPoint;
     CGPoint _anchorPoint;
     JGActionSheetArrowDirection _anchoredArrowDirection;
@@ -524,7 +526,7 @@ static BOOL disableCustomEasing = NO;
         [_scrollViewHost addSubview:_scrollView];
         [self addSubview:_scrollViewHost];
         
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.3f];
         
         _sections = sections;
         
@@ -558,6 +560,11 @@ static BOOL disableCustomEasing = NO;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    [super setBackgroundColor:backgroundColor];
+    _realBGColor = backgroundColor;
 }
 
 #pragma mark Callbacks
@@ -677,7 +684,7 @@ static BOOL disableCustomEasing = NO;
     UIView *viewToModify = _scrollViewHost;
     
     if (visible) {
-        self.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.3f];
+        self.backgroundColor = _realBGColor;
         
         if (iPad) {
             viewToModify.alpha = 1.0f;
@@ -688,7 +695,7 @@ static BOOL disableCustomEasing = NO;
         }
     }
     else {
-        self.backgroundColor = [UIColor clearColor];
+        super.backgroundColor = [UIColor clearColor];
         
         if (iPad) {
             viewToModify.alpha = 0.0f;
