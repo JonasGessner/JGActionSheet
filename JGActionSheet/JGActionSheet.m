@@ -64,6 +64,16 @@
 
 #pragma mark - Helpers
 
+@interface JGButton : UIButton
+
+@property (nonatomic, assign) NSUInteger row;
+
+@end
+
+@implementation JGButton
+
+@end
+
 NS_INLINE UIBezierPath *trianglePath(CGRect rect, JGActionSheetArrowDirection arrowDirection, BOOL closePath) {
     UIBezierPath *path = [UIBezierPath bezierPath];
     
@@ -232,8 +242,8 @@ static BOOL disableCustomEasing = NO;
             NSInteger index = 0;
             
             for (NSString *str in buttonTitles) {
-                UIButton *b = [self makeButtonWithTitle:str style:buttonStyle];
-                b.tag = index;
+                JGButton *b = [self makeButtonWithTitle:str style:buttonStyle];
+                b.row = (NSUInteger)index;
                 
                 [self addSubview:b];
                 
@@ -390,8 +400,8 @@ static BOOL disableCustomEasing = NO;
     button.layer.borderColor = borderColor.CGColor;
 }
 
-- (UIButton *)makeButtonWithTitle:(NSString *)title style:(JGActionSheetButtonStyle)style {
-    UIButton *b = [UIButton buttonWithType:UIButtonTypeCustom];
+- (JGButton *)makeButtonWithTitle:(NSString *)title style:(JGActionSheetButtonStyle)style {
+    JGButton *b = [[JGButton alloc] init];
     
     b.layer.cornerRadius = 2.0f;
     b.layer.masksToBounds = YES;
@@ -406,9 +416,9 @@ static BOOL disableCustomEasing = NO;
     return b;
 }
 
-- (void)buttonPressed:(UIButton *)button {
+- (void)buttonPressed:(JGButton *)button {
     if (self.buttonPressedBlock) {
-        self.buttonPressedBlock([NSIndexPath indexPathForRow:button.tag inSection:self.tag]);
+        self.buttonPressedBlock([NSIndexPath indexPathForRow:(NSInteger)button.row inSection:self.tag]);
     }
 }
 
