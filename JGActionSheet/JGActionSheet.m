@@ -730,7 +730,7 @@ static BOOL disableCustomEasing = NO;
         }
     };
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     
     [self layoutForVisible:!animated];
     
@@ -799,7 +799,7 @@ static BOOL disableCustomEasing = NO;
         }
     };
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationChanged) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     
     [self layoutForVisible:!animated];
     
