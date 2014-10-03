@@ -65,6 +65,12 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
  */
 @property (nonatomic, strong, readonly) UIView *contentView;
 
+
+/**
+ Returns a standard cancel section. The button title is "Cancel" (localized string), and the button style is the cancel button style.
+*/
++ (instancetype)cancelSection;
+
 /**
  Convenience initializer for the @c initWithTitle:message:buttonTitles:buttonStyle: initializer.
  */

@@ -188,6 +188,8 @@ static BOOL disableCustomEasing = NO;
 
 @interface JGActionSheetSection ()
 
+@property (nonatomic, assign) NSUInteger index;
+
 @property (nonatomic, copy) void (^buttonPressedBlock)(NSIndexPath *indexPath);
 
 - (void)setUpForContinuous:(BOOL)continuous;
@@ -197,6 +199,10 @@ static BOOL disableCustomEasing = NO;
 @implementation JGActionSheetSection
 
 #pragma mark Initializers
+
++ (instancetype)cancelSection {
+    return [self sectionWithTitle:nil message:nil buttonTitles:@[NSLocalizedString(@"Cancel",)] buttonStyle:JGActionSheetButtonStyleCancel];
+}
 
 + (instancetype)sectionWithTitle:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
     return [[self alloc] initWithTitle:title message:message buttonTitles:buttonTitles buttonStyle:buttonStyle];
@@ -418,7 +424,7 @@ static BOOL disableCustomEasing = NO;
 
 - (void)buttonPressed:(JGButton *)button {
     if (self.buttonPressedBlock) {
-        self.buttonPressedBlock([NSIndexPath indexPathForRow:(NSInteger)button.row inSection:self.tag]);
+        self.buttonPressedBlock([NSIndexPath indexPathForRow:(NSInteger)button.row inSection:(NSInteger)self.index]);
     }
 }
 
@@ -549,7 +555,7 @@ static BOOL disableCustomEasing = NO;
         };
         
         for (JGActionSheetSection *section in self.sections) {
-            section.tag = index;
+            section.index = index;
             
             [_scrollView addSubview:section];
             
