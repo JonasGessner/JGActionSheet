@@ -204,65 +204,74 @@ static BOOL disableCustomEasing = NO;
     return [self sectionWithTitle:nil message:nil buttonTitles:@[NSLocalizedString(@"Cancel",)] buttonStyle:JGActionSheetButtonStyleCancel];
 }
 
+
+
++ (instancetype)sectionWithTitle:(NSString *)title messageAttributed:(NSAttributedString *)messageAttributed buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle textAlignment:(NSTextAlignment)textAlignment {
+    return [[self alloc] initWithTitle:title messageAttributed:messageAttributed buttonTitles:buttonTitles buttonStyle:buttonStyle textAlignment:textAlignment];
+}
+
+
+- (instancetype)initWithTitle:(NSString *)title messageAttributed:(NSAttributedString *)messageAttributed buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle textAlignment:(NSTextAlignment)textAlignment {
+    
+    self = [super init];
+    
+    if (self) {
+        if (title) {
+            [self setUpTitleLabel:title textAlignment:textAlignment];
+        }
+        if (messageAttributed) {
+            [self setUpAttributedMessageLabel:messageAttributed textAlign:textAlignment];
+        }
+        if (buttonTitles.count) {
+            [self setUpButtons:buttonTitles buttonStyle:buttonStyle];
+        }
+    }
+    
+    return self;
+    
+}
+
+
+
++ (instancetype)sectionWithTitle:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle textAlignment:(NSTextAlignment)textAlignment {
+    return [[self alloc] initWithTitle:title message:message buttonTitles:buttonTitles buttonStyle:buttonStyle textAlignment:textAlignment];
+}
+
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle textAlignment:(NSTextAlignment)textAlignment {
+    
+    self = [super init];
+    
+    if (self) {
+        if (title) {
+            [self setUpTitleLabel:title textAlignment:textAlignment];
+        }
+        if (message) {
+            [self setUpMessageLabel:message textAlign:textAlignment];
+        }
+        if (buttonTitles.count) {
+            [self setUpButtons:buttonTitles buttonStyle:buttonStyle];
+        }
+    }
+    
+    return self;
+    
+    
+}
+
++ (instancetype)sectionWithTitle:(NSString *)title messageAttributed:(NSAttributedString *)messageAttributed buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
+    return [[self alloc] initWithTitle:title messageAttributed:messageAttributed buttonTitles:buttonTitles buttonStyle:buttonStyle textAlignment:NSTextAlignmentCenter];
+}
+
+- (instancetype)initWithTitle:(NSString *)title messageAttributed:(NSAttributedString *)messageAttributed buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
+    return [self initWithTitle:title messageAttributed:messageAttributed buttonTitles:buttonTitles buttonStyle:buttonStyle textAlignment:NSTextAlignmentCenter];
+}
+
 + (instancetype)sectionWithTitle:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
     return [[self alloc] initWithTitle:title message:message buttonTitles:buttonTitles buttonStyle:buttonStyle];
 }
 
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
-    self = [super init];
-    
-    if (self) {
-        if (title) {
-            UILabel *titleLabel = [[UILabel alloc] init];
-            titleLabel.backgroundColor = [UIColor clearColor];
-            titleLabel.textAlignment = NSTextAlignmentCenter;
-            titleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-            titleLabel.textColor = [UIColor blackColor];
-            titleLabel.numberOfLines = 1;
-            
-            titleLabel.text = title;
-            
-            _titleLabel = titleLabel;
-            
-            [self addSubview:_titleLabel];
-        }
-        
-        if (message) {
-            UILabel *messageLabel = [[UILabel alloc] init];
-            messageLabel.backgroundColor = [UIColor clearColor];
-            messageLabel.textAlignment = NSTextAlignmentCenter;
-            messageLabel.font = [UIFont systemFontOfSize:12.0f];
-            messageLabel.textColor = [UIColor blackColor];
-            messageLabel.numberOfLines = 0;
-            
-            messageLabel.text = message;
-            
-            _messageLabel = messageLabel;
-            
-            [self addSubview:_messageLabel];
-        }
-        
-        if (buttonTitles.count) {
-            NSMutableArray *buttons = [NSMutableArray arrayWithCapacity:buttonTitles.count];
-            
-            NSInteger index = 0;
-            
-            for (NSString *str in buttonTitles) {
-                JGButton *b = [self makeButtonWithTitle:str style:buttonStyle];
-                b.row = (NSUInteger)index;
-                
-                [self addSubview:b];
-                
-                [buttons addObject:b];
-                
-                index++;
-            }
-            
-            _buttons = buttons.copy;
-        }
-    }
-    
-    return self;
+    return [self initWithTitle:title message:message buttonTitles:buttonTitles buttonStyle:buttonStyle textAlignment:NSTextAlignmentCenter];
 }
 
 + (instancetype)sectionWithTitle:(NSString *)title message:(NSString *)message contentView:(UIView *)contentView {
@@ -274,33 +283,10 @@ static BOOL disableCustomEasing = NO;
     
     if (self) {
         if (title) {
-            UILabel *titleLabel = [[UILabel alloc] init];
-            titleLabel.backgroundColor = [UIColor clearColor];
-            titleLabel.textAlignment = NSTextAlignmentCenter;
-            titleLabel.font = [UIFont boldSystemFontOfSize:14.0f];
-            titleLabel.textColor = [UIColor blackColor];
-            titleLabel.numberOfLines = 1;
-            
-            titleLabel.text = title;
-            
-            _titleLabel = titleLabel;
-            
-            [self addSubview:_titleLabel];
+            [self setUpTitleLabel:title textAlignment:NSTextAlignmentCenter];
         }
-        
         if (message) {
-            UILabel *messageLabel = [[UILabel alloc] init];
-            messageLabel.backgroundColor = [UIColor clearColor];
-            messageLabel.textAlignment = NSTextAlignmentCenter;
-            messageLabel.font = [UIFont systemFontOfSize:12.0f];
-            messageLabel.textColor = [UIColor blackColor];
-            messageLabel.numberOfLines = 0;
-            
-            messageLabel.text = message;
-            
-            _messageLabel = messageLabel;
-            
-            [self addSubview:_messageLabel];
+            [self setUpMessageLabel:message textAlign:NSTextAlignmentCenter];
         }
         
         _contentView = contentView;
@@ -312,6 +298,87 @@ static BOOL disableCustomEasing = NO;
 }
 
 #pragma mark UI
+
+- (NSNumber *)messageFontSize {
+    if (_messageFontSize == nil)
+        return [NSNumber numberWithFloat:14.0];
+    else return _messageFontSize;
+}
+
+- (NSNumber *)titleFontSize {
+    if (_titleFontSize == nil)
+        return [NSNumber numberWithFloat:16.0];
+    else return _titleFontSize;
+}
+
+- (NSNumber *)buttonTitleFontSize {
+    if (_buttonTitleFontSize == nil)
+        return [NSNumber numberWithFloat:16.0];
+    else return _buttonTitleFontSize;
+}
+
+- (void)setUpTitleLabel:(NSString *)title textAlignment:(NSTextAlignment)textAlignment {
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.textAlignment = textAlignment;
+    titleLabel.font = [UIFont boldSystemFontOfSize:[self.titleFontSize floatValue]];
+    titleLabel.textColor = [UIColor blackColor];
+    titleLabel.numberOfLines = 1;
+    
+    titleLabel.text = title;
+    
+    _titleLabel = titleLabel;
+    
+    [self addSubview:_titleLabel];
+    
+}
+
+- (void)setUpMessageLabel:(NSString *)message textAlign:(NSTextAlignment)textAlignment {
+    UILabel *messageLabel = [[UILabel alloc] init];
+    messageLabel.backgroundColor = [UIColor clearColor];
+    messageLabel.textAlignment = textAlignment;
+    messageLabel.font = [UIFont systemFontOfSize:[self.messageFontSize floatValue]];
+    messageLabel.textColor = [UIColor blackColor];
+    messageLabel.numberOfLines = 0;
+    
+    messageLabel.text = message;
+    
+    _messageLabel = messageLabel;
+    
+    [self addSubview:_messageLabel];
+}
+- (void)setUpAttributedMessageLabel:(NSAttributedString *)attributedMessage textAlign:(NSTextAlignment)textAlignment {
+    UILabel *messageLabel = [[UILabel alloc] init];
+    messageLabel.backgroundColor = [UIColor clearColor];
+    messageLabel.numberOfLines = 0;
+    
+    messageLabel.attributedText = attributedMessage;
+    
+    _messageLabel = messageLabel;
+    
+    [self addSubview:_messageLabel];
+    
+}
+
+- (void)setUpButtons:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
+    NSMutableArray *buttons = [NSMutableArray arrayWithCapacity:buttonTitles.count];
+    
+    NSInteger index = 0;
+    
+    for (NSString *str in buttonTitles) {
+        JGButton *b = [self makeButtonWithTitle:str style:buttonStyle];
+        b.row = (NSUInteger)index;
+        
+        [self addSubview:b];
+        
+        [buttons addObject:b];
+        
+        index++;
+    }
+    
+    _buttons = buttons.copy;
+    
+}
 
 - (void)setUpForContinuous:(BOOL)continuous {
     if (continuous) {
@@ -450,23 +517,13 @@ static BOOL disableCustomEasing = NO;
         
         CGFloat messageLabelHeight = 0.0f;
         
-        if (iOS7) {
-            NSDictionary *attributes = @{NSFontAttributeName : self.messageLabel.font};
-            
-            messageLabelHeight = CGRectGetHeight([self.messageLabel.text boundingRectWithSize:maxLabelSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil]);
-        }
-        else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-            messageLabelHeight = [self.messageLabel.text sizeWithFont:self.messageLabel.font constrainedToSize:maxLabelSize lineBreakMode:self.messageLabel.lineBreakMode].height;
-#pragma clang diagnostic pop
-        }
+        messageLabelHeight = [self.messageLabel sizeThatFits:maxLabelSize].height;
+        
         
         self.messageLabel.frame = (CGRect){{spacing, height}, {width-spacing*2.0f, messageLabelHeight}};
         
         height += messageLabelHeight;
     }
-    
     for (UIButton *button in self.buttons) {
         height += spacing;
         
