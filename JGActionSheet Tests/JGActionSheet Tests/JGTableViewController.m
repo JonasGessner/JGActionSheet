@@ -15,6 +15,7 @@
     UIView *_anchorView;
     BOOL _anchorLeft;
     JGActionSheet *_simple;
+    JGActionSheet *_simpleAttributed;
 }
 
 @end
@@ -133,7 +134,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -158,6 +159,9 @@
     else if (indexPath.row == 1) {
         cell.textLabel.text = @"Multiple Sections";
     }
+    else if (indexPath.row == 2) {
+        cell.textLabel.text = @"One Section with Attributed Text";
+    }
     else {
         cell.textLabel.text = @"Multiple Sections & Content View";
     }
@@ -172,6 +176,9 @@
     else if (button.tag == 1) {
         [self multipleSections:button];
     }
+    else if (button.tag == 2) {
+        [self showOneSectionWithAttributedText:button];
+    }
     else {
         [self multipleAndContentView:button];
     }
@@ -185,6 +192,9 @@
     }
     else if (indexPath.row == 1) {
         [self multipleSections:nil];
+    }
+    else if (indexPath.row == 2) {
+        [self showOneSectionWithAttributedText:nil];
     }
     else {
         [self multipleAndContentView:nil];
@@ -266,6 +276,49 @@
     [sheet setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
         [sheet dismissAnimated:YES];
     }];
+}
+
+- (void)showOneSectionWithAttributedText:(UIView *)anchor {
+    //This is am example of an action sheet that is reused!
+    if (!_simpleAttributed) {
+        NSString *html = @"<meta charset=\"UTF-8\"><style> body { font-family: 'HelveticaNeue'; font-size: 14px; } </style>attributed <b>text</b> with <br/><br/>some <i>words</i>";
+        
+        NSDictionary *options = @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType };
+        
+        NSAttributedString *attributed = [[NSAttributedString alloc] initWithData:[html dataUsingEncoding:NSUTF8StringEncoding] options:options documentAttributes:NULL error:NULL];
+        
+        
+        _simpleAttributed = [JGActionSheet actionSheetWithSections:@[[JGActionSheetSection sectionWithTitle:@"Title" messageAttributed:attributed buttonTitles:@[@"Yes", @"No"] buttonStyle:JGActionSheetButtonStyleDefault], [JGActionSheetSection sectionWithTitle:nil message:nil buttonTitles:@[@"Cancel"] buttonStyle:JGActionSheetButtonStyleCancel]]];
+        
+        _simpleAttributed.delegate = self;
+        
+        _simpleAttributed.insets = UIEdgeInsetsMake(20.0f, 0.0f, 0.0f, 0.0f);
+        
+        if (iPad) {
+            [_simpleAttributed setOutsidePressBlock:^(JGActionSheet *sheet) {
+                [sheet dismissAnimated:YES];
+            }];
+        }
+        
+        [_simpleAttributed setButtonPressedBlock:^(JGActionSheet *sheet, NSIndexPath *indexPath) {
+            [sheet dismissAnimated:YES];
+        }];
+    }
+    
+    if (anchor && iPad) {
+        _anchorView = anchor;
+        _anchorLeft = YES;
+        _currentAnchoredActionSheet = _simpleAttributed;
+        
+        CGPoint p = (CGPoint){-5.0f, CGRectGetMidY(anchor.bounds)};
+        
+        p = [self.navigationController.view convertPoint:p fromView:anchor];
+        
+        [_simpleAttributed showFromPoint:p inView:[[UIApplication sharedApplication] keyWindow] arrowDirection:JGActionSheetArrowDirectionRight animated:YES];
+    }
+    else {
+        [_simpleAttributed showInView:self.navigationController.view animated:YES];
+    }
 }
 
 - (void)multipleAndContentView:(UIView *)anchor {
