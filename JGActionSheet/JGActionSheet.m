@@ -306,6 +306,48 @@ static BOOL disableCustomEasing = NO;
         _contentView = contentView;
         
         [self addSubview:self.contentView];
+
+        
+        [self.contentView setTranslatesAutoresizingMaskIntoConstraints:FALSE];
+        
+        // Width constraint
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
+                                                               attribute:NSLayoutAttributeWidth
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self
+                                                               attribute:NSLayoutAttributeWidth
+                                                              multiplier:1.0
+                                                                constant:0]];
+        
+        // Height constraint
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
+                                                               attribute:NSLayoutAttributeHeight
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self
+                                                               attribute:NSLayoutAttributeHeight
+                                                              multiplier:1.0
+                                                                constant:0]];
+        
+        // Center horizontally
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
+                                                               attribute:NSLayoutAttributeCenterX
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self
+                                                               attribute:NSLayoutAttributeCenterX
+                                                              multiplier:1.0
+                                                                constant:0.0]];
+        
+        // Center vertically
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:_contentView
+                                                               attribute:NSLayoutAttributeCenterY
+                                                               relatedBy:NSLayoutRelationEqual
+                                                                  toItem:self
+                                                               attribute:NSLayoutAttributeCenterY
+                                                              multiplier:1.0
+                                                                constant:0.0]];
+        
+        self.contentView.backgroundColor = [UIColor clearColor];
+        [self.contentView updateConstraints];        
     }
     
     return self;
