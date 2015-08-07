@@ -208,6 +208,11 @@ static BOOL disableCustomEasing = NO;
     return [[self alloc] initWithTitle:title message:message buttonTitles:buttonTitles buttonStyle:buttonStyle];
 }
 
+- (instancetype)initWithDelegate:(id<JGActionSheetSectionDelegate>)sectionDelegate title:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
+    _sectionDelegate = sectionDelegate;
+    return [self initWithTitle:title message:message buttonTitles:buttonTitles buttonStyle:buttonStyle];
+}
+
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle {
     self = [super init];
     
@@ -359,38 +364,39 @@ static BOOL disableCustomEasing = NO;
 - (void)setButtonStyle:(JGActionSheetButtonStyle)buttonStyle forButton:(UIButton *)button {
     UIColor *backgroundColor, *borderColor, *titleColor = nil;
     UIFont *font = nil;
+    BOOL delegatedColor = [self.sectionDelegate respondsToSelector:@selector(actionSheetSection:textColorForButtonStyle:)];
     
     if (buttonStyle == JGActionSheetButtonStyleDefault) {
         font = [UIFont systemFontOfSize:15.0f];
-        titleColor = [UIColor blackColor];
+        titleColor = delegatedColor ? [self.sectionDelegate actionSheetSection:self textColorForButtonStyle:buttonStyle] : [UIColor blackColor];
         
         backgroundColor = [UIColor colorWithWhite:0.95f alpha:1.0f];
         borderColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
     }
     else if (buttonStyle == JGActionSheetButtonStyleCancel) {
         font = [UIFont boldSystemFontOfSize:15.0f];
-        titleColor = [UIColor blackColor];
+        titleColor = delegatedColor ? [self.sectionDelegate actionSheetSection:self textColorForButtonStyle:buttonStyle] : [UIColor blackColor];
         
         backgroundColor = [UIColor colorWithWhite:0.95f alpha:1.0f];
         borderColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
     }
     else if (buttonStyle == JGActionSheetButtonStyleRed) {
         font = [UIFont systemFontOfSize:15.0f];
-        titleColor = [UIColor whiteColor];
+        titleColor = delegatedColor ? [self.sectionDelegate actionSheetSection:self textColorForButtonStyle:buttonStyle] : [UIColor whiteColor];
         
         backgroundColor = rgb(231.0f, 76.0f, 60.0f);
         borderColor = rgb(192.0f, 57.0f, 43.0f);
     }
     else if (buttonStyle == JGActionSheetButtonStyleGreen) {
         font = [UIFont systemFontOfSize:15.0f];
-        titleColor = [UIColor whiteColor];
+        titleColor = delegatedColor ? [self.sectionDelegate actionSheetSection:self textColorForButtonStyle:buttonStyle] : [UIColor whiteColor];
         
         backgroundColor = rgb(46.0f, 204.0f, 113.0f);
         borderColor = rgb(39.0f, 174.0f, 96.0f);
     }
     else if (buttonStyle == JGActionSheetButtonStyleBlue) {
         font = [UIFont systemFontOfSize:15.0f];
-        titleColor = [UIColor whiteColor];
+        titleColor = delegatedColor ? [self.sectionDelegate actionSheetSection:self textColorForButtonStyle:buttonStyle] : [UIColor whiteColor];
         
         backgroundColor = rgb(52.0f, 152.0f, 219.0f);
         borderColor = rgb(41.0f, 128.0f, 185.0f);
