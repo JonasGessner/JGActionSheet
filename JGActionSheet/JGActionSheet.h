@@ -36,13 +36,32 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
 
 
 
+@class JGActionSheetSection;
 
+@protocol JGActionSheetSectionDelegate <NSObject>
+
+@optional
+
+/**
+ Called when buttons are created to set their title color.
+ @param indexPath The index path of the presented button. (Optional)
+ 
+ @Note Default color is black for a white background, white for colored background.
+ */
+- (UIColor *)actionSheetSection:(JGActionSheetSection *)section textColorForButtonStyle:(JGActionSheetButtonStyle)buttonStyle;
+
+@end
 
 /**
  A section for JGActionSheet.
  @sa JGActionSheet.
  */
 @interface JGActionSheetSection : UIView
+
+/**
+ The delegate which can obtain information about the current setion
+ */
+@property (nonatomic, weak) id<JGActionSheetSectionDelegate> sectionDelegate;
 
 /**
  The label containing the title of the section.
@@ -84,6 +103,16 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
  @param buttonStyle The style to apply to the buttons. This can be altered later with the @c setButtonStyle:forButtonAtIndex: method
  */
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle;
+
+/**
+ Initializes the section with buttons.
+ @param sectionDelegate The delegate for the section.
+ @param title The title of the section. (Optional)
+ @param message The message of the section. (Optional)
+ @param buttonTitles The titles for the buttons in the section.
+ @param buttonStyle The style to apply to the buttons. This can be altered later with the @c setButtonStyle:forButtonAtIndex: method
+ */
+- (instancetype)initWithDelegate:(id<JGActionSheetSectionDelegate>)sectionDelegate title:(NSString *)title message:(NSString *)message buttonTitles:(NSArray *)buttonTitles buttonStyle:(JGActionSheetButtonStyle)buttonStyle;
 
 /**
  Convenience initializer for the @c initWithTitle:message:contentView: method.
