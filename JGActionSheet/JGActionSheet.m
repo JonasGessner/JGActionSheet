@@ -728,7 +728,9 @@ static BOOL disableCustomEasing = NO;
 - (void)showInView:(UIView *)view animated:(BOOL)animated {
     NSAssert(!self.visible, @"Action Sheet is already visisble!");
     
+#if !defined(JG_APP_EXTENSIONS)
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+#endif
     
     _targetView = view;
     
@@ -739,7 +741,9 @@ static BOOL disableCustomEasing = NO;
     }
     
     void (^completion)(void) = ^{
+#if !defined(JG_APP_EXTENSIONS)
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+#endif
         
         if ([self.delegate respondsToSelector:@selector(actionSheetDidPresent:)]) {
             [self.delegate actionSheetDidPresent:self];
@@ -797,7 +801,9 @@ static BOOL disableCustomEasing = NO;
         return [self showInView:view animated:animated];
     }
     
+#if !defined(JG_APP_EXTENSIONS)
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+#endif
     
     _targetView = view;
     
@@ -808,7 +814,9 @@ static BOOL disableCustomEasing = NO;
     }
     
     void (^completion)(void) = ^{
+#if !defined(JG_APP_EXTENSIONS)
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+#endif
         
         if ([self.delegate respondsToSelector:@selector(actionSheetDidPresent:)]) {
             [self.delegate actionSheetDidPresent:self];
@@ -840,7 +848,9 @@ static BOOL disableCustomEasing = NO;
         return;
     }
     
+#if !defined(JG_APP_EXTENSIONS)
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+#endif
     
     disableCustomEasing = YES;
     
@@ -899,7 +909,9 @@ static BOOL disableCustomEasing = NO;
     };
     
     void (^completion)(void) = ^{
+#if !defined(JG_APP_EXTENSIONS)
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+#endif
     };
     
     if (animated) {
@@ -980,7 +992,9 @@ static BOOL disableCustomEasing = NO;
 - (void)dismissAnimated:(BOOL)animated {
     NSAssert(self.visible, @"Action Sheet requires to be visible in order to dismiss!");
     
+#if !defined(JG_APP_EXTENSIONS)
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+#endif
     
     void (^completion)(void) = ^{
         [_arrowView removeFromSuperview];
@@ -996,7 +1010,9 @@ static BOOL disableCustomEasing = NO;
         
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         
+#if !defined(JG_APP_EXTENSIONS)
         [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+#endif
         
         if ([self.delegate respondsToSelector:@selector(actionSheetDidDismiss:)]) {
             [self.delegate actionSheetDidDismiss:self];
