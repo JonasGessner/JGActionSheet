@@ -788,6 +788,37 @@ static BOOL disableCustomEasing = NO;
     [self layoutSheetForFrame:frame fitToRect:!iPad initialSetUp:initial continuous:NO];
 }
 
+#pragma mark Showing From Rect
+
+- (void)showFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated {
+    
+    // Select side with most room
+    CGSize viewSize = view.bounds.size;
+    CGFloat minimumDimensions[4] = {
+        MIN(viewSize.width - CGRectGetMaxX(rect), viewSize.height),
+        MIN(CGRectGetMinX(rect), viewSize.height),
+        MIN(viewSize.width, viewSize.height - CGRectGetMaxY(rect)),
+        MIN(viewSize.width, CGRectGetMinY(rect)) };
+    
+    CGFloat max = 0;
+    JGActionSheetArrowDirection direction = JGActionSheetArrowDirectionLeft;
+    for ( int i=0; i<4; i++ ) {
+        if ( minimumDimensions[i] > max ) {
+            max = minimumDimensions[i];
+            direction = i;
+        }
+    }
+    
+    // Determine arrow origin
+    CGPoint point =
+        direction == JGActionSheetArrowDirectionLeft  ? CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect)) :
+        direction == JGActionSheetArrowDirectionRight ? CGPointMake(CGRectGetMinX(rect), CGRectGetMidY(rect)) :
+        direction == JGActionSheetArrowDirectionTop   ? CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect)) :
+            CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
+    
+    [self showFromPoint:point inView:view arrowDirection:direction animated:animated];
+}
+
 #pragma mark Showing From Point
 
 - (void)showFromPoint:(CGPoint)point inView:(UIView *)view arrowDirection:(JGActionSheetArrowDirection)arrowDirection animated:(BOOL)animated {

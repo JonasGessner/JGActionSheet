@@ -220,6 +220,16 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
 - (void)showInView:(UIView *)view animated:(BOOL)animated;
 
 /**
+ Shows the action sheet that originates from a specific area within a specified view.
+ @param rect The portion of view from which to originate the action sheet.
+ @param view The hosting view in which the action sheet should be shown.
+ @param animated Whether the action sheet should show with an animation.
+ 
+ @Attention This method is only available on iPad devices.
+ */
+- (void)showFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated;
+
+/**
  Shows the action sheet from a specific point.
  @param point The point to show the action sheet from. An arrow will point towards this point.
  @param view The hosting view in which the action sheet should be shown.
