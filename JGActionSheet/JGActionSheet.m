@@ -791,7 +791,27 @@ static BOOL disableCustomEasing = NO;
 #pragma mark Showing From Rect
 
 - (void)showFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated {
+    JGActionSheetArrowDirection direction;
+    CGPoint point;
+    [self chooseDirection:&direction point:&point forRect:rect inView:view];
+    [self showFromPoint:point inView:view arrowDirection:direction animated:animated];
+}
+
+- (void)moveToRect:(CGRect)rect animated:(BOOL)animated {
+    if (!iPad) {
+        return;
+    }
     
+    NSAssert(self.visible, @"Action Sheet requires to be visible in order to move the anchor point!");
+    
+    JGActionSheetArrowDirection direction;
+    CGPoint point;
+    [self chooseDirection:&direction point:&point forRect:rect inView:self.targetView];
+    [self moveToPoint:point arrowDirection:direction animated:animated];
+}
+
+- (void)chooseDirection:(JGActionSheetArrowDirection*)outDirection point:(CGPoint*)outPoint forRect:(CGRect)rect inView:(UIView *)view {
+        
     // Select side with most room
     CGSize viewSize = view.bounds.size;
     CGFloat minimumDimensions[4] = {
@@ -801,22 +821,20 @@ static BOOL disableCustomEasing = NO;
         MIN(viewSize.width, CGRectGetMinY(rect)) };
     
     CGFloat max = 0;
-    JGActionSheetArrowDirection direction = JGActionSheetArrowDirectionLeft;
+    *outDirection = JGActionSheetArrowDirectionLeft;
     for ( int i=0; i<4; i++ ) {
         if ( minimumDimensions[i] > max ) {
             max = minimumDimensions[i];
-            direction = i;
+            *outDirection = i;
         }
     }
     
     // Determine arrow origin
-    CGPoint point =
-        direction == JGActionSheetArrowDirectionLeft  ? CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect)) :
-        direction == JGActionSheetArrowDirectionRight ? CGPointMake(CGRectGetMinX(rect), CGRectGetMidY(rect)) :
-        direction == JGActionSheetArrowDirectionTop   ? CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect)) :
+    *outPoint =
+        *outDirection == JGActionSheetArrowDirectionLeft  ? CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect)) :
+        *outDirection == JGActionSheetArrowDirectionRight ? CGPointMake(CGRectGetMinX(rect), CGRectGetMidY(rect)) :
+        *outDirection == JGActionSheetArrowDirectionTop   ? CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect)) :
             CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
-    
-    [self showFromPoint:point inView:view arrowDirection:direction animated:animated];
 }
 
 #pragma mark Showing From Point

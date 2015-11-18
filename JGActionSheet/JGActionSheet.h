@@ -241,6 +241,17 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
 - (void)showFromPoint:(CGPoint)point inView:(UIView *)view arrowDirection:(JGActionSheetArrowDirection)arrowDirection animated:(BOOL)animated;
 
 /**
+ Moves the action sheet so that it originates from the new region.
+ 
+ @param rect The portion of view from which to originate the action sheet.
+ @param animated Whether the action sheet should change point with an animation. If you are invoking this method from the animated interface orientation change methods of UIViewController (@c willAnimateRotationToInterfaceOrientation:) pass @c NO because the UIViewController will itself do the animation.
+ 
+ @Note This method can only be called if the action sheet is already visible on screen.
+ @Attention This method is only available on iPad devices.
+ */
+- (void)moveToRect:(CGRect)rect animated:(BOOL)animated;
+
+/**
  Moves the action sheet to a new point.
  
  @param point The point to show the action sheet from. An arrow will point towards this point.
