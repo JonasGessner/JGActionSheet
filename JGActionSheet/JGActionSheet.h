@@ -220,6 +220,16 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
 - (void)showInView:(UIView *)view animated:(BOOL)animated;
 
 /**
+ Shows the action sheet that originates from a specific area within a specified view.
+ @param rect The portion of view from which to originate the action sheet.
+ @param view The hosting view in which the action sheet should be shown.
+ @param animated Whether the action sheet should show with an animation.
+ 
+ @Attention This method is only available on iPad devices.
+ */
+- (void)showFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated;
+
+/**
  Shows the action sheet from a specific point.
  @param point The point to show the action sheet from. An arrow will point towards this point.
  @param view The hosting view in which the action sheet should be shown.
@@ -229,6 +239,17 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
  @Attention This method is only available on iPad devices.
  */
 - (void)showFromPoint:(CGPoint)point inView:(UIView *)view arrowDirection:(JGActionSheetArrowDirection)arrowDirection animated:(BOOL)animated;
+
+/**
+ Moves the action sheet so that it originates from the new region.
+ 
+ @param rect The portion of view from which to originate the action sheet.
+ @param animated Whether the action sheet should change point with an animation. If you are invoking this method from the animated interface orientation change methods of UIViewController (@c willAnimateRotationToInterfaceOrientation:) pass @c NO because the UIViewController will itself do the animation.
+ 
+ @Note This method can only be called if the action sheet is already visible on screen.
+ @Attention This method is only available on iPad devices.
+ */
+- (void)moveToRect:(CGRect)rect animated:(BOOL)animated;
 
 /**
  Moves the action sheet to a new point.

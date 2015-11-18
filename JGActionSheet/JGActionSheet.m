@@ -788,6 +788,55 @@ static BOOL disableCustomEasing = NO;
     [self layoutSheetForFrame:frame fitToRect:!iPad initialSetUp:initial continuous:NO];
 }
 
+#pragma mark Showing From Rect
+
+- (void)showFromRect:(CGRect)rect inView:(UIView *)view animated:(BOOL)animated {
+    JGActionSheetArrowDirection direction;
+    CGPoint point;
+    [self chooseDirection:&direction point:&point forRect:rect inView:view];
+    [self showFromPoint:point inView:view arrowDirection:direction animated:animated];
+}
+
+- (void)moveToRect:(CGRect)rect animated:(BOOL)animated {
+    if (!iPad) {
+        return;
+    }
+    
+    NSAssert(self.visible, @"Action Sheet requires to be visible in order to move the anchor point!");
+    
+    JGActionSheetArrowDirection direction;
+    CGPoint point;
+    [self chooseDirection:&direction point:&point forRect:rect inView:self.targetView];
+    [self moveToPoint:point arrowDirection:direction animated:animated];
+}
+
+- (void)chooseDirection:(JGActionSheetArrowDirection*)outDirection point:(CGPoint*)outPoint forRect:(CGRect)rect inView:(UIView *)view {
+        
+    // Select side with most room
+    CGSize viewSize = view.bounds.size;
+    CGFloat minimumDimensions[4] = {
+        MIN(viewSize.width - CGRectGetMaxX(rect), viewSize.height),
+        MIN(CGRectGetMinX(rect), viewSize.height),
+        MIN(viewSize.width, viewSize.height - CGRectGetMaxY(rect)),
+        MIN(viewSize.width, CGRectGetMinY(rect)) };
+    
+    CGFloat max = 0;
+    *outDirection = JGActionSheetArrowDirectionLeft;
+    for ( int i=0; i<4; i++ ) {
+        if ( minimumDimensions[i] > max ) {
+            max = minimumDimensions[i];
+            *outDirection = i;
+        }
+    }
+    
+    // Determine arrow origin
+    *outPoint =
+        *outDirection == JGActionSheetArrowDirectionLeft  ? CGPointMake(CGRectGetMaxX(rect), CGRectGetMidY(rect)) :
+        *outDirection == JGActionSheetArrowDirectionRight ? CGPointMake(CGRectGetMinX(rect), CGRectGetMidY(rect)) :
+        *outDirection == JGActionSheetArrowDirectionTop   ? CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect)) :
+            CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
+}
+
 #pragma mark Showing From Point
 
 - (void)showFromPoint:(CGPoint)point inView:(UIView *)view arrowDirection:(JGActionSheetArrowDirection)arrowDirection animated:(BOOL)animated {
