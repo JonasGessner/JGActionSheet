@@ -342,6 +342,18 @@ static BOOL disableCustomEasing = NO;
     }
 }
 
+- (void)setCustomBackgroundColor:(UIColor*)bgColor forButtonAtIndex:(NSUInteger)index {
+    if (index < self.buttons.count) {
+        UIButton *button = self.buttons[index];
+        
+        [self setCustomBackgroundColor:bgColor forButton:button];
+    }
+    else {
+        NSLog(@"ERROR: Index out of bounds");
+        return;
+    }
+}
+
 - (UIImage *)pixelImageWithColor:(UIColor *)color {
     UIGraphicsBeginImageContextWithOptions((CGSize){1.0f, 1.0f}, YES, 0.0f);
     
@@ -404,6 +416,14 @@ static BOOL disableCustomEasing = NO;
     [button setBackgroundImage:[self pixelImageWithColor:borderColor] forState:UIControlStateHighlighted];
     
     button.layer.borderColor = borderColor.CGColor;
+}
+
+- (void)setCustomBackgroundColor:(UIColor*)bgColor forButton:(UIButton*)button {
+    [button setTitleColor:UIColor.whiteColor forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+    [button setBackgroundImage:[self pixelImageWithColor:bgColor] forState:UIControlStateNormal];
+    [button setBackgroundImage:[self pixelImageWithColor:UIColor.grayColor] forState:UIControlStateHighlighted];
+    button.layer.borderColor = bgColor.CGColor;
 }
 
 - (JGButton *)makeButtonWithTitle:(NSString *)title style:(JGActionSheetButtonStyle)style {

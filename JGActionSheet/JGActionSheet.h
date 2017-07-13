@@ -105,6 +105,14 @@ typedef NS_ENUM(NSUInteger, JGActionSheetArrowDirection) {
  */
 - (void)setButtonStyle:(JGActionSheetButtonStyle)buttonStyle forButtonAtIndex:(NSUInteger)index;
 
+/**
+ Sets custom background color for a specific button. Makes border color the same as buttons.
+ Sets highlighted color always as gray.
+ @param bgColor
+ @Warning If the section does not have any buttons or @c index exceeds the number of buttons an exception is thrown.
+ */
+- (void)setCustomBackgroundColor:(UIColor*)bgColor forButtonAtIndex:(NSUInteger)index;
+
 @end
 
 
